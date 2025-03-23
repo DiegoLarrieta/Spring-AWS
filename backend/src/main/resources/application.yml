@@ -9,6 +9,11 @@ cors:
   allowed-headers: "*"
   exposed-headers: "*"
 
+aws:
+  s3:
+    buckets:
+      customer: fs-diegob-customer-test
+
 management:
   endpoints:
     web:

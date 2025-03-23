@@ -1,10 +1,10 @@
 package com.amigoscode.customer;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
 
 @Repository("list")
 public class CustomerListDataAccessService implements CustomerDao {
@@ -81,6 +81,14 @@ public class CustomerListDataAccessService implements CustomerDao {
         return customers.stream()
                 .filter(c -> c.getUsername().equals(email))
                 .findFirst();
+    }
+
+    @Override
+    public void updateCustomerProfileImageId(String profileImageId, Integer customerId) {
+        // customers.stream()
+        //         .filter(c -> c.getId().equals(customerId))
+        //         .findFirst()
+        //         .ifPresent(c -> c.setProfileImageId(profileImageId));
     }
 
 }
