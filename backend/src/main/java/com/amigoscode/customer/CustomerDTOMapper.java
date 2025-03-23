@@ -1,10 +1,10 @@
 package com.amigoscode.customer;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Service;
-
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerDTOMapper implements Function<Customer, CustomerDTO> {
@@ -20,7 +20,8 @@ public class CustomerDTOMapper implements Function<Customer, CustomerDTO> {
                         .stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()),
-                customer.getUsername()
+                customer.getUsername(),
+                customer.getProfileImageId()
         );
     }
 }

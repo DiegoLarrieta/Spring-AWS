@@ -135,6 +135,7 @@ public class CustomerService {
         } catch (IOException e) {
             throw new RuntimeException("Error uploading file to S3", e);
         }
+        customerDao.updateCustomerProfileImageId(profileImageId, customerId);
         
     }
 
@@ -145,13 +146,16 @@ public class CustomerService {
                 "customer with id [%s] not found".formatted(customerId)
         ));
 
+        if(customer.profileImageId().isBlank()){
+            throw new ResourceNotFoundException("customer does not have a profile image");
+        }
 
-        var profileImageId = "TODO";
+
 
 
         byte[] profileImage =  s3Service.getObject(
             s3Buckets.getCustomer(),
-            "profile-images/%s/%s".formatted(customerId, profileImageId)
+            "profile-images/%s/%s".formatted(customerId, customer.profileImageId())
         );
         return profileImage;
     }
