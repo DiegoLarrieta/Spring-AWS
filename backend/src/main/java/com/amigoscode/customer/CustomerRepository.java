@@ -2,9 +2,11 @@ package com.amigoscode.customer;
 
 import java.util.Optional;
 
-import org.springframework.data.jdbc.repository.query.Modifying;
-import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface CustomerRepository
         extends JpaRepository<Customer, Integer> {
@@ -14,7 +16,9 @@ public interface CustomerRepository
     Optional<Customer> findCustomerByEmail(String email);
 
     @Modifying
-    @Query("UPDATE Customer c SET c.profileImageId = ?1 WHERE c.id = ?2")
+    @Transactional
+    @Query("UPDATE Customer c SET c.profileImageId = :profileImageId WHERE c.id = :customerId")
+    int updateProfileImageId(@Param("profileImageId") String profileImageId,
+                            @Param("customerId") Integer customerId);
 
-    int updateProfileImageId(String profileImageId, Integer customerId);
 }

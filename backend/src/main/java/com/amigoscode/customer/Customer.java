@@ -202,6 +202,20 @@ public class Customer implements UserDetails {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(id, customer.id) &&
+            Objects.equals(name, customer.name) &&
+            Objects.equals(email, customer.email) &&
+            Objects.equals(password, customer.password) &&
+            Objects.equals(age, customer.age) &&
+            gender == customer.gender &&
+            Objects.equals(profileImageId, customer.profileImageId);
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(id, name, email,age,gender,password,profileImageId);
     }

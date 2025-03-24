@@ -1,6 +1,5 @@
 package com.amigoscode.security;
 
-import com.amigoscode.jwt.JWTAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.amigoscode.jwt.JWTAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,12 +37,17 @@ public class SecurityFilterChainConfig {
                 .csrf().disable()
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests()
+
+                // Rutas POST públicas
                 .requestMatchers(
                         HttpMethod.POST,
                         "/api/v1/customers",
                         "/api/v1/auth/login"
                 )
                 .permitAll()
+
+                 // Rutas GET públicas
+
                 .requestMatchers(
                         HttpMethod.GET,
                         "/ping"
@@ -49,6 +55,9 @@ public class SecurityFilterChainConfig {
                 .permitAll()
                 .requestMatchers(HttpMethod.GET, "/actuator/**")
                 .permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/api/v1/customers/*/profile-image").permitAll()
+
                 .anyRequest()
                 .authenticated()
                 .and()

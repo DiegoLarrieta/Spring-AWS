@@ -72,11 +72,14 @@ public class CustomerController {
         customerService.uploadCustomerProfileImage(customerId, file);
     }
 
-    @GetMapping("{customerId}/profile-image")
-    public byte[] getCustomerProfileImage(
-            @PathVariable("customerId") Integer customerId){
-        return customerService.getCustomerProfileImage(customerId);
-       
+    @GetMapping(value="{customerId}/profile-image", produces=MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getCustomerProfileImage(@PathVariable("customerId") Integer customerId){
+    byte[] image = customerService.getCustomerProfileImage(customerId);
+    return ResponseEntity.ok()
+                         .header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // O el tipo que corresponda
+                         .body(image);
     }
+
+    
 
 }

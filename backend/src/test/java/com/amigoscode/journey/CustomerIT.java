@@ -1,23 +1,27 @@
 package com.amigoscode.journey;
 
-import com.amigoscode.customer.*;
-import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.reactive.server.WebTestClient;
-import reactor.core.publisher.Mono;
-
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import org.springframework.core.ParameterizedTypeReference;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.reactive.server.WebTestClient;
+
+import com.amigoscode.customer.CustomerDTO;
+import com.amigoscode.customer.CustomerRegistrationRequest;
+import com.amigoscode.customer.CustomerUpdateRequest;
+import com.amigoscode.customer.Gender;
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
+
+import reactor.core.publisher.Mono;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class CustomerIT {
@@ -84,7 +88,8 @@ public class CustomerIT {
                 gender,
                 age,
                 List.of("ROLE_USER"),
-                email
+                email,
+                null
         );
 
         assertThat(allCustomers).contains(expectedCustomer);
@@ -266,7 +271,7 @@ public class CustomerIT {
                 .getResponseBody();
 
         CustomerDTO expected = new CustomerDTO(
-                id, newName, email, gender, age, List.of("ROLE_USER"), email
+                id, newName, email, gender, age, List.of("ROLE_USER"), email, null
         );
 
         assertThat(updatedCustomer).isEqualTo(expected);
